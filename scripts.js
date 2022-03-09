@@ -10,10 +10,15 @@ let boxes = [], isClicked=new Map();
 let step = 0;
 
 let neutralCol = "rgb(18, 105, 185)";
-let player1 = new Player("white", "white", 1), player2 = new Player("black", "black", 0);
+let players = [];
+players[0] = new Player("black", "black", 0);
+players[1] = new Player("white", "white", 1);
 
 let startBtn = document.getElementById("start");
 let playAgain = document.getElementById("playAgain");
+let currentPlayer = document.getElementById("currentPlayer");
+let currPlayerName = document.getElementById("name");
+let currPlayerColor = document.getElementById("color");
 let inputDiv = document.getElementsByClassName("players")[0];
 let gameDiv = document.getElementsByClassName("all")[0];
 let resultDiv = document.getElementsByClassName("resMain")[0];
@@ -21,6 +26,7 @@ let resultDiv = document.getElementsByClassName("resMain")[0];
 
 playAgain.addEventListener("click", restart);
 startBtn.addEventListener("click", startGame);
+
 
 
 for (let i=0;i<3;i++){
@@ -40,9 +46,9 @@ function onBtnClicked(){
 
         if (box===-1){
             isClicked[this.id]=step;
-            this.style.background = player1.color;
+            this.style.background = players[1].color;
+            checkWinner(players[1]);
             step++;
-            checkWinner(player1);
         }
         else if (box+1===step){
             isClicked[this.id]=-1;
@@ -55,9 +61,9 @@ function onBtnClicked(){
         
         if (box===-1){
             isClicked[this.id]=step;
-            this.style.background = player2.color;
+            this.style.background = players[0].color;
+            checkWinner(players[0]);
             step++;
-            checkWinner(player2);
         }
         else if (box+1===step){
             isClicked[this.id]=-1;
@@ -65,6 +71,8 @@ function onBtnClicked(){
             step--;
         }
     }
+
+    updateCurrentPlayer();
 }
 
 function checkWinner(player){
@@ -101,7 +109,7 @@ function checkWinner(player){
             return;
         }
     }
-
+    
     // checks main diagonal
     sum = 0;
     for (let j=0;j<3;j++){
@@ -131,9 +139,9 @@ function checkWinner(player){
         announceWinner(player);
         return;
     }
-
+    
     console.log("");
-
+    
     if (step===9){
         showDraw();
         return;
@@ -148,14 +156,14 @@ function checkWinner(player){
 
 // // checks for ind^th row or col 
 // function checkWin(fun, ind){
-//     let sum = 0;
+    //     let sum = 0;
 //     for (let i=0;i<3;i++){
-//         sum+=isClicked[fun(ind)]
+    //         sum+=isClicked[fun(ind)]
 //     }
 // }
 
 // function getRow(i, j){
-//     return 3*i+j;
+    //     return 3*i+j;
 // }
 
 // function getCol(i, j){
@@ -174,7 +182,7 @@ function announceWinner(player){
         document.getElementById("winnerName").innerHTML=player.name+" is Winner.";
         console.log(player.name+" is Winner.");
     }, 300);
-
+    
 }
 
 function showDraw(){
@@ -191,9 +199,11 @@ function restart(){
         isClicked[boxes[i].id]=-1;
         step = 0;
     }
+    updateCurrentPlayer();
 }
 
 function startGame(){
+    console.log("hsdf");
     let p1 = document.getElementById('player1').value;
     let p2 = document.getElementById('player2').value;
     console.log("Game Started "+p1+" "+p2);
@@ -202,9 +212,18 @@ function startGame(){
     p2.trim();
     if (p1==='' || p2==='') return;
     else {
-        player1.name = p1;
-        player2.name = p2;
+        players[0].name = p1;
+        players[1].name = p2;
+        console.log(players[0].name+" "+players[0].color);
+        console.log(players[1].name+" "+players[1].color);
         inputDiv.style.visibility = "hidden";
+        currentPlayer.style.visibility = "visible";
+        updateCurrentPlayer();
     }
+    
+}
 
+function updateCurrentPlayer(){
+    currPlayerName.innerHTML = players[step%2].name+"'s move";
+    currPlayerColor.style.background = players[step%2].color;
 }

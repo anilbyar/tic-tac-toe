@@ -118,3 +118,27 @@
     border-radius: 8px;
     box-shadow: 2px 2px 9px black;
 }
+
+#currentPlayer {
+    visibility: hidden;
+    position: absolute;
+    top: 45%;
+    right: 1%;
+    box-shadow: 0px 0px 74px #303030;
+    padding: 10px;
+    border-radius: 10px;
+    width: 28%;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+#currentPlayer #name {
+    font-size: 41px;
+}
+
+#currentPlayer #color{
+    width: 20%;
+    color: black;
+    border-radius: 8px;
+}
