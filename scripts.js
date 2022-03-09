@@ -31,9 +31,7 @@ startBtn.addEventListener("click", startGame);
 
 for (let i=0;i<3;i++){
     for (let j=0;j<3;j++){
-        console.log("cell"+(i+1)+""+(j+1));
         let box = document.getElementById("cell"+(i+1)+""+(j+1));
-        // console.log(box.id+" here");
         boxes.push(box);
         boxes[3*i+j].addEventListener('click', onBtnClicked)
         isClicked[box.id]=-1;
@@ -88,7 +86,6 @@ function checkWinner(player){
             }
             sum+=isClicked[boxes[3*i+j].id]%2;
         }
-        console.log("Row "+i+" = "+sum);
         if (sum===3 || sum===0) {
             announceWinner(player);
             return;
@@ -103,7 +100,6 @@ function checkWinner(player){
             }
             sum+=isClicked[boxes[i+3*j].id]%2;
         }
-        console.log("Col "+i+" = "+sum);
         if (sum===3 || sum===0) {
             announceWinner(player);
             return;
@@ -119,7 +115,6 @@ function checkWinner(player){
         }
         sum+=isClicked[boxes[4*j].id]%2;
     }
-    console.log("Diag 1 = "+sum);
     if (sum===3 || sum===0) {
         announceWinner(player);
         return;
@@ -134,15 +129,12 @@ function checkWinner(player){
         }
         sum+=isClicked[boxes[2*j+2].id]%2;
     }
-    console.log("Diag 2 = "+sum);
     if (sum===3 || sum===0) {
         announceWinner(player);
         return;
     }
-    
-    console.log("");
-    
-    if (step===9){
+        
+    if (step===8){
         showDraw();
         return;
     }
@@ -180,16 +172,13 @@ function announceWinner(player){
     setTimeout(() => {
         resultDiv.style.visibility = "visible";
         document.getElementById("winnerName").innerHTML=player.name+" is Winner.";
-        console.log(player.name+" is Winner.");
     }, 300);
     
 }
 
 function showDraw(){
     resultDiv.style.visibility = "visible";
-    document.getElementById("winnerName").innerHTML="<b>Draw</b>";
-    console.log("Draw");
-    
+    document.getElementById("winnerName").innerHTML="<b>Draw</b>";    
 }
 
 function restart(){
@@ -203,10 +192,8 @@ function restart(){
 }
 
 function startGame(){
-    console.log("hsdf");
     let p1 = document.getElementById('player1').value;
     let p2 = document.getElementById('player2').value;
-    console.log("Game Started "+p1+" "+p2);
     
     p1.trim();
     p2.trim();
@@ -214,8 +201,6 @@ function startGame(){
     else {
         players[0].name = p1;
         players[1].name = p2;
-        console.log(players[0].name+" "+players[0].color);
-        console.log(players[1].name+" "+players[1].color);
         inputDiv.style.visibility = "hidden";
         currentPlayer.style.visibility = "visible";
         updateCurrentPlayer();
